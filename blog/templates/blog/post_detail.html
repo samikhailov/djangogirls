@@ -1,40 +1,38 @@
 {% extends 'blog/base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="post">
-    {% if post.published_date %}
-    <div class="date">
-        {{ post.published_date }}
-    </div>
-    {% else %}
-    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
-    {% endif %}
-    {% if user.is_authenticated %}
-    <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span
-            class="glyphicon glyphicon-pencil"></span></a>
-    <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span
-            class="glyphicon glyphicon-remove"></span></a>
-    {% endif %}
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text|linebreaksbr }}</p>
-</div>
-<hr>
-<a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
-{% for comment in post.comments.all %}
-    {% if user.is_authenticated or comment.approved_comment %}
-    <div class="comment">
-        <div class="date">
-            {{ comment.created_date }}
-            {% if not comment.approved_comment %}
-                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-            {% endif %}
+<article class="blog-post px-3 py-5 p-md-5">
+    <div class="container">
+        <header class="blog-post-header">
+            <h2 class="title mb-2">{{ post.title }}</h2>
+            <div class="meta mb-3"><span class="date">Опубликовано: {{ post.created_date }}</span></div>
+        </header>
+
+        <div class="blog-post-body">
+            <p>{{ post.text|linebreaksbr }}</p>
+
+            <!--Comments-->
+            <hr>
+            <div id="disqus_thread"></div>
+            <script>
+
+                (function () { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://ko0n.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered
+                    by Disqus.</a></noscript>
+
         </div>
-        <strong>{{ comment.author }}</strong>
-        <p>{{ comment.text|linebreaks }}</p>
+        <!--//container-->
     </div>
-    {% endif %}
-{% empty %}
-    <p>No comments here yet :(</p>
-{% endfor %}
+</article>
+
+<!--Place the following code before your site's closing </body> tag:-->
+<script id="dsq-count-scr" src="//ko0n.disqus.com/count.js" async></script>
+
 {% endblock %}
