@@ -11,7 +11,7 @@
                     src="{{ post.thumbnail_link }}" alt="image">
                 <div class="media-body">
                     <h3 class="title mb-1"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
-                    <div class="meta mb-1"><span class="date">Опубликовано: {{ post.created_date }}</span></div>
+                    <div class="meta mb-1"><span class="date">Опубликовано: {{ post.created_date }}</span><span class="time">Время чтения: {{ post.reading_duration }} мин.</span></div>
                     <div class="intro">{{ post.text|truncatechars_html:220 }}</div>
                     <a class="more-link" href="{% url 'post_detail' pk=post.pk %}">Читать далее &rarr;</a>
                 </div>

@@ -10,5 +10,8 @@ class Post(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     thumbnail_link = models.URLField(max_length=500)
 
+    def reading_duration(self):
+        return len(self.text) // 1500 + 1
+
     def __str__(self):
         return self.title
