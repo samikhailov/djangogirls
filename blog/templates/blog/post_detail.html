@@ -10,7 +10,7 @@
         </header>
 
         <div class="blog-post-body">
-            <p>{{ post.text|linebreaksbr }}</p>
+            <p>{{ post.html_text|safe|linebreaksbr }}</p>
 
             <!--Comments-->
             <hr>
